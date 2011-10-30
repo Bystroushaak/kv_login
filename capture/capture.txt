@@ -1,0 +1,22 @@
+http://10.5.50.1/login
+
+POST /login HTTP/1.1
+Host: 10.5.50.1
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: cs,en-us;q=0.7,en;q=0.3
+Accept-Encoding: gzip, deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Connection: keep-alive
+Referer: http://10.5.50.1/login
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 71
+username=full&password=8de824a30605a543e0dd476b1a1b14da&dst=&popup=true
+HTTP/1.1 200 OK
+Cache-Control: no-cache
+Connection: Keep-Alive
+Content-Length: 1142
+Content-Type: text/html
+Date: Tue, 20 Jan 1970 03:51:22 GMT
+Expires: 0
+----------------------------------------------------------

@@ -1,0 +1,39 @@
+body { 
+	color: #737373; 
+	font-size: medium;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; 
+	text-align: center;
+}
+table {
+	border-width: 1px; 
+	border-collapse: collapse; 
+	border-color: #c1c1c1; 
+	background-color: transparent;
+	font-family: verdana;
+	font-size: medium;
+}
+textarea, input, select {
+	background-color: #FDFBFB;
+	border: 1px solid #BBBBBB;
+	padding: 2px;
+	margin: 1px;
+	font-size: medium;
+	color: #808080;
+}
+img {
+	border: none;
+}
+td { 
+	color: #7A7A7A; 
+	text-align: center;
+}
+a, a:link, a:visited, a:active { 
+	color: #AAAAAA; 
+	text-decoration: none; 
+}
+a:hover { 
+	border-bottom: 1px dotted #c1c1c1; 
+}
+h2 {
+	color: #000000;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>mikrotik hotspot &gt; login</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<link href="login_files/web.css" rel="stylesheet" rev="stylesheet">
+</head>
+
+<body>
+
+	<form name="sendin" action="http://10.5.50.1/login" method="post">
+		<input name="username" type="hidden">
+		<input name="password" type="hidden">
+		<input name="dst" value="" type="hidden">
+		<input name="popup" value="true" type="hidden">
+	</form>
+	<script type="text/javascript" language="JavaScript" src="login_files/md5.js"></script>
+	<script type="text/javascript" language="JavaScript">
+<!--
+	    function doLogin() {
+		document.sendin.username.value = document.login.username.value;
+		document.sendin.password.value = hexMD5('\010' + document.login.password.value + '\276\335\060\060\274\223\001\312\235\156\260\246\122\377\215\023');
+		document.sendin.submit();
+		return false;
+	    }
+	//-->
+</script>
+
+<script type="text/javascript" language="JavaScript" src="login_files/chodov.js"></script>
+<table width="100%">
+	<tbody><tr>
+	<td>
+ 		<div class="notice" align="center">
+			<h2>Prosím, přihlašte se k hotspot službě<br> poskytované městem Karlovy Vary</h2>
+			<p><img src="login_files/login.jpg" border="0"></p>
+		</div>
+		
+		<form name="login" id="login" action="http://10.5.50.1/login" method="post" onsubmit="return doLogin()">
+						<input name="dst" value="" type="hidden">
+						<input name="popup" value="true" type="hidden">
+						<input name="submit" value="OK" type="hidden">
+						<input name="username" value="" type="hidden">
+						<input name="password" value="" type="hidden">
+
+		<table width="240" align="center">
+		<tbody><tr>
+			<td><input name="polea" id="polea" src="login_files/blank.jpg" value="0" onclick="plnit(pomPole[0]);" onmouseover="zmenf('polea','imga');" onmouseout="zmenf('polea','blnk');" type="image"></td>
+			<td><input name="poleb" id="poleb" src="login_files/blank.jpg" value="0" onclick="plnit(pomPole[1]);" onmouseover="zmenf('poleb','imgb');" onmouseout="zmenf('poleb','blnk');" type="image"></td>
+		</tr>
+		<tr>
+			<td><input name="polec" id="polec" src="login_files/blank.jpg" value="0" onclick="plnit(pomPole[2]);" onmouseover="zmenf('polec','imgc');" onmouseout="zmenf('polec','blnk');" type="image"></td>
+			<td><input name="poled" id="poled" src="login_files/blank.jpg" value="0" onclick="plnit(pomPole[3]);" onmouseover="zmenf('poled','imgd');" onmouseout="zmenf('poled','blnk');" type="image"></td>
+		</tr>
+		</tbody></table>	
+		</form>
+	<br>
+	<div>
+		klikněte do loga <strong>města Karlovy Vary</strong><br>maximální doba připojení je 30 minut<br>
+		povolené služby jsou HTTP a HTTPS</div><br>
+		technický servis služby zajišťuje WOLFNET.CZ<br>
+	
+	</td>
+	</tr>
+</tbody></table>
+
+
+</body></html>
