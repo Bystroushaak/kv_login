@@ -4,18 +4,22 @@
  * 30 minutes, and that sux. This program is cure for that suxiness..
  * 
  * Author:  Bystroushaak (bystrousak@kitakitsune.org)
- * Version: 1.0.0
- * Date:    30.10.2011
+ * Version: 1.0.2
+ * Date:    04.11.2011
  * 
  * Copyright: 
  *     This work is licensed under a CC BY.
  *     http://creativecommons.org/licenses/by/3.0/
+ * 
+ * Todo:
+ *    Fix second get()
 */
 import std.stdio;
 import std.string;
 import std.array : replace;
 import std.md5;
 import core.thread; // sleep
+import std.datetime;
 
 import dhttpclient;
 import dhtmlparser;
@@ -71,31 +75,52 @@ void logout(string url){
 }
 
 
+// jeez, phobos is sometimes so fucking lame
+void ohMyFuckingJesusWriteThatFuckingFORMATTEDTime(SysTime t){
+	write(t.hour, ":", t.minute, ":", t.second);
+}
+
+
 
 int main(string[] args){
+	string s;
 	cl = new HTTPClient();
-	string s = cl.get("http://seznam.cz");
-		
-	if (! (s.indexOf(`xml/WISPAccessGatewayParam.xsd`) > 0 && s.indexOf(`login?dst=http%3A%2F%2Fseznam.cz%2F`) > 0)){
-		writeln("You are connected, waiting 30m2s to disconnect.");
-		Thread.sleep(dur!("seconds")((30 * 60) + 2));
+	
+	try{
+		s = cl.get("http://seznam.cz");
+		while(! (s.indexOf(`xml/WISPAccessGatewayParam.xsd`) > 0 && s.indexOf(`login?dst=http%3A%2F%2Fseznam.cz%2F`) > 0)){
+			writeln("You are connected, waiting 2m for disconnect.");
+			Thread.sleep(dur!("seconds")(2 * 60));
+			s = cl.get("http://seznam.cz");
+		}
+	}catch(URLException e){
+		stderr.writeln("Can't resolve 'seznam.cz', check your internet connection!");
+		return 1;
 	}
 	
 	string url = getRedirectUrl(s);
 	
+	// at the end, logout no matter what happen
+	scope(exit){
+		logout(url);
+		writeln("Logged out.");
+	}
+	
 	try{
 		while(1){
 			login(url);
-			writeln("Logged in, waiting 25m to reconect.");
+			write("[");
+			ohMyFuckingJesusWriteThatFuckingFORMATTEDTime(Clock.currTime());
+			writeln("] Logged in, waiting 25m to reconect..");
 			
 			Thread.sleep(dur!("seconds")(25 * 60));
 			
 			logout(url);
-			writeln("Logged out.");
+			write("[");
+			ohMyFuckingJesusWriteThatFuckingFORMATTEDTime(Clock.currTime());
+			writeln("] Logged out.");
 		}
 	}catch(Exception e){
-		logout(url);
-		writeln("Logged out.");
 	}
 	
 	return 0;
