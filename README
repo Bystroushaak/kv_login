@@ -1,0 +1,7 @@
+Program, který vás automaticky zaloguje do sítě kterou poskyktuje město Karlovy
+Vary.
+
+Pro jeho kompilaci se hodí mít nainstalován kompilátor 'dmd' ve verzi > 2.054.
+
+Makefile je zatím docela trapné, někdy v budoucnu ho zkompletuju do něčeho 
+smysluplnějšího.
