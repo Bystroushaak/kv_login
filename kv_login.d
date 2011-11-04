@@ -113,9 +113,15 @@ int main(string[] args){
 			logout(url);
 			writeln(getFormatedTime(Clock.currTime()), " Logged out.");
 		}
-	}catch(Exception e){ // network is down, or something like that..
-		logout(url);
-		writeln("Logged out.");
+	}catch(Exception){ // network is down, or something like that..
+		try{
+			logout(url);
+			writeln("Logged out.");
+			
+			return 1;
+		}catch(Exception){
+			return 1;
+		}
 	}
 	
 	return 0;
