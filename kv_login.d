@@ -4,7 +4,7 @@
  * 30 minutes, and that sux. This program is cure for that suxiness..
  * 
  * Author:  Bystroushaak (bystrousak@kitakitsune.org)
- * Version: 1.0.2
+ * Version: 1.1.0
  * Date:    04.11.2011
  * 
  * Copyright: 
@@ -13,6 +13,7 @@
  * 
  * Todo:
  *    Fix second get()
+ *    Upravit cas na hh:mm:ss, ne h:m:s
 */
 import std.stdio;
 import std.string;
@@ -26,7 +27,8 @@ import dhtmlparser;
 
 
 
-const string LOL_PWD = "full";
+const string LOL_PWD = "full"; // password & username, lol
+
 HTTPClient cl;
 
 
@@ -53,7 +55,7 @@ void login(string url){
 	
 	// get md5 hash of salt and LOL_PWD
 	ubyte[] real_password;
-	foreach(octet; password.split("\\")){
+	foreach(octet; password.split("\\")){ // convert octets to ubyte
 		if (octet == "-")
 			foreach(c; LOL_PWD)
 				real_password ~= c;
@@ -61,23 +63,24 @@ void login(string url){
 			real_password ~= std.conv.parse!ubyte(octet, 8);
 		}
 	}
-	password = getDigestString(real_password).toLower;
+	password = getDigestString(real_password).toLower();
 	
+	// send POST data to login
 	url = url[0 .. url.indexOf("?")];
 	cl.post(url, ["username":"full", "password":password, "dst":"", "popup":"true"]);
 }
 
 
-/// just visits logout page (ip.ip.ip.ip/logout)
+/// visit logout page (ip.ip.ip.ip/logout)
 void logout(string url){
 	url = url[0 .. url.indexOf("?")].replace("login", "logout");
 	cl.get(url);
 }
 
 
-// jeez, phobos is sometimes so fucking lame
-void ohMyFuckingJesusWriteThatFuckingFORMATTEDTime(SysTime t){
-	write(t.hour, ":", t.minute, ":", t.second);
+// jeez, phobos is sometimes so lame, strftime is not yet impelemented..
+string getFormatedTime(SysTime t){
+	return format("[%02d:%02d:%02d]", t.hour, t.minute, t.second);
 }
 
 
@@ -89,7 +92,7 @@ int main(string[] args){
 	try{
 		s = cl.get("http://seznam.cz");
 		while(! (s.indexOf(`xml/WISPAccessGatewayParam.xsd`) > 0 && s.indexOf(`login?dst=http%3A%2F%2Fseznam.cz%2F`) > 0)){
-			writeln("You are connected, waiting 2m for disconnect.");
+			writeln(getFormatedTime(Clock.currTime()), " You are connected, waiting 2m for disconnect.");
 			Thread.sleep(dur!("seconds")(2 * 60));
 			s = cl.get("http://seznam.cz");
 		}
@@ -100,27 +103,19 @@ int main(string[] args){
 	
 	string url = getRedirectUrl(s);
 	
-	// at the end, logout no matter what happen
-	scope(exit){
-		logout(url);
-		writeln("Logged out.");
-	}
-	
 	try{
 		while(1){
 			login(url);
-			write("[");
-			ohMyFuckingJesusWriteThatFuckingFORMATTEDTime(Clock.currTime());
-			writeln("] Logged in, waiting 25m to reconect..");
+			writeln(getFormatedTime(Clock.currTime()), " Logged in, waiting 25m to reconect..");
 			
 			Thread.sleep(dur!("seconds")(25 * 60));
 			
 			logout(url);
-			write("[");
-			ohMyFuckingJesusWriteThatFuckingFORMATTEDTime(Clock.currTime());
-			writeln("] Logged out.");
+			writeln(getFormatedTime(Clock.currTime()), " Logged out.");
 		}
-	}catch(Exception e){
+	}catch(Exception e){ // network is down, or something like that..
+		logout(url);
+		writeln("Logged out.");
 	}
 	
 	return 0;
