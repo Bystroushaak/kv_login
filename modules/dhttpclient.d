@@ -12,8 +12,8 @@
  *     - http://www.faqs.org/rfcs/rfc2616.html
  * 
  * Author:  Bystroushaak (bystrousak@kitakitsune.org)
- * Version: 1.5.0
- * Date:    18.10.2011
+ * Version: 1.5.1
+ * Date:    04.11.2011
  * 
  * Copyright: This work is licensed under a CC BY (http://creativecommons.org/licenses/by/3.0/).
  * 
@@ -228,6 +228,10 @@ public class InvalidStateException:HTTPClientException{
 public class StatusCodeException:HTTPClientException{
 	private uint status_code;
 	private string data;
+	
+	this(string msg){
+		super(msg);
+	}
 
 	this(string msg, uint status_code, string data){
 		super(msg);
@@ -615,7 +619,10 @@ public class HTTPClient{
 					return data;
 				}
 			}else{ // Every other StatusCode throwing exception
-				throw new StatusCodeException(this.serverHeaders["StatusCode"], to!(uint)(this.serverHeaders["StatusCode"][0 .. 3]), data);
+				if ("StatusCode" in this.serverHeaders)
+					throw new StatusCodeException(this.serverHeaders["StatusCode"], to!(uint)(this.serverHeaders["StatusCode"][0 .. 3]), data);
+				else
+					throw new StatusCodeException("Can't find status code - connection lost?");
 			}
 		}else{ // StatusCode 200 - Ok
 			this.recursion = 0;
