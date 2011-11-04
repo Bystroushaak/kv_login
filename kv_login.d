@@ -4,7 +4,7 @@
  * 30 minutes, and that sux. This program is cure for that suxiness..
  * 
  * Author:  Bystroushaak (bystrousak@kitakitsune.org)
- * Version: 1.1.0
+ * Version: 1.1.1
  * Date:    04.11.2011
  * 
  * Copyright: 
@@ -28,7 +28,7 @@ import dhtmlparser;
 
 
 const string LOL_PWD = "full"; // password & username, lol
-
+const int WAIT = 10; // 10m
 HTTPClient cl;
 
 
@@ -106,9 +106,9 @@ int main(string[] args){
 	try{
 		while(1){
 			login(url);
-			writeln(getFormatedTime(Clock.currTime()), " Logged in, waiting 25m to reconect..");
+			writeln(getFormatedTime(Clock.currTime()), " Logged in, waiting ", WAIT,"m to reconect..");
 			
-			Thread.sleep(dur!("seconds")(25 * 60));
+			Thread.sleep(dur!("seconds")(WAIT * 60));
 			
 			logout(url);
 			writeln(getFormatedTime(Clock.currTime()), " Logged out.");
