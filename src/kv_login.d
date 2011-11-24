@@ -4,16 +4,14 @@
  * 30 minutes, and that sux. This program is cure for that suxiness..
  * 
  * Author:  Bystroushaak (bystrousak@kitakitsune.org)
- * Version: 1.1.1
- * Date:    04.11.2011
+ * Version: 1.2.0
+ * Date:    24.11.2011
  * 
  * Copyright: 
  *     This work is licensed under a CC BY.
  *     http://creativecommons.org/licenses/by/3.0/
  * 
  * Todo:
- *    Fix second get()
- *    Upravit cas na hh:mm:ss, ne h:m:s
 */
 import std.stdio;
 import std.string;
@@ -80,7 +78,7 @@ void logout(string url){
 
 // jeez, phobos is sometimes so lame, strftime is not yet impelemented..
 string getFormatedTime(SysTime t){
-	return format("[%02d:%02d:%02d]", t.hour, t.minute, t.second);
+	return format("%02d:%02d:%02d", t.hour, t.minute, t.second);
 }
 
 
@@ -92,7 +90,7 @@ int main(string[] args){
 	try{
 		s = cl.get("http://seznam.cz");
 		while(! (s.indexOf(`xml/WISPAccessGatewayParam.xsd`) > 0 && s.indexOf(`login?dst=http%3A%2F%2Fseznam.cz%2F`) > 0)){
-			writeln(getFormatedTime(Clock.currTime()), " You are connected, waiting 2m for disconnect.");
+			writeln("[", getFormatedTime(Clock.currTime()), "] You are connected, waiting 2m (", getFormatedTime(Clock.currTime() + dur!("minutes")(2)), ") for disconnect.");
 			Thread.sleep(dur!("seconds")(2 * 60));
 			s = cl.get("http://seznam.cz");
 		}
@@ -106,12 +104,12 @@ int main(string[] args){
 	try{
 		while(1){
 			login(url);
-			writeln(getFormatedTime(Clock.currTime()), " Logged in, waiting ", WAIT,"m to reconect..");
+			writeln("[", getFormatedTime(Clock.currTime()), "] Logged in, waiting ", WAIT,"m (", getFormatedTime(Clock.currTime() + dur!("minutes")(WAIT)), ") to reconect..");
 			
-			Thread.sleep(dur!("seconds")(WAIT * 60));
+			Thread.sleep(dur!("minutes")(WAIT));
 			
 			logout(url);
-			writeln(getFormatedTime(Clock.currTime()), " Logged out.");
+			writeln("[", getFormatedTime(Clock.currTime()), "] Logged out.");
 		}
 	}catch(Exception){ // network is down, or something like that..
 		try{
