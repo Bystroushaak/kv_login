@@ -28,7 +28,7 @@ import dhtmlparser;
 
 
 const string LOL_PWD = "full"; // password & username, lol
-const int WAIT = 10; // 10m
+const int WAIT = 28; // 10m
 HTTPClient cl;
 
 
