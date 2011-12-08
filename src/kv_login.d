@@ -90,8 +90,8 @@ int main(string[] args){
 	try{
 		s = cl.get("http://seznam.cz");
 		while(! (s.indexOf(`xml/WISPAccessGatewayParam.xsd`) > 0 && s.indexOf(`login?dst=http%3A%2F%2Fseznam.cz%2F`) > 0)){
-			writeln("[", getFormatedTime(Clock.currTime()), "] You are connected, waiting 2m (", getFormatedTime(Clock.currTime() + dur!("minutes")(2)), ") for disconnect.");
-			Thread.sleep(dur!("seconds")(2 * 60));
+			writeln("[", getFormatedTime(Clock.currTime()), "] You are connected, waiting 1m (", getFormatedTime(Clock.currTime() + dur!("seconds")(60)), ") for disconnect.");
+			Thread.sleep(dur!("seconds")(60));
 			s = cl.get("http://seznam.cz");
 		}
 	}catch(URLException e){
